@@ -69,10 +69,14 @@ for (let i = 0; i < allCheckbox.length; i++) {
   allCheckbox[i].addEventListener("change", (e) => {
     if (e.target.checked) {
       totalAmount += parseInt(allCheckbox[i].getAttribute("data-cost"));
+      allCheckbox[i].parentElement.focus()
+      allCheckbox[i].parentElement.classList = 'focus';
       console.log(totalAmount);
       totalAmountEl.textContent = `Total: $${totalAmount}`;
     } else {
       totalAmount -= parseInt(allCheckbox[i].getAttribute("data-cost"));
+      allCheckbox[i].parentElement.blur()
+      allCheckbox[i].parentElement.classList = '';
       console.log(totalAmount);
       totalAmountEl.textContent = `Total: $${totalAmount}`;
     }
@@ -150,9 +154,20 @@ function isValidCVV(cvv){
 function showOrHideTip(show, element) {
   if (show) {
     element.style.display = "inherit";
-    e.preventDefault();
+    element.parentElement.className = 'not-valid';
   } else {
     element.style.display = "none";
+    element.parentElement.className = 'valid';
+  }
+}
+
+function showOrHideTipActivity(show, element) {
+  if (show) {
+    element.style.display = "inherit";
+    element.parentElement.className = 'activities not-valid';
+  } else {
+    element.style.display = "none";
+    element.parentElement.className = 'activities valid';
   }
 }
 
@@ -175,20 +190,22 @@ function createListenerActivity(validator) {
     const valid = validator(text);
     const showTip = text !== "" && !valid;
     const tooltip = activitiesCost.nextElementSibling;
-    showOrHideTip(showTip, tooltip);
+    showOrHideTipActivity(showTip, tooltip);
   };
 }
 
 /* event listners to listen for submits using the validators and listener functions */
 
-nameInput.addEventListener("submit", createListener(isValidName));
+nameInput.addEventListener("input", createListener(isValidName));
 
-email.addEventListener("submit", createListener(isValidEmail));
+email.addEventListener("input", createListener(isValidEmail));
 
 registerForActivities.addEventListener("change", createListenerActivity(isValidActivity));
 
-cardNumber.addEventListener('submit', createListener(isValidCardNumber));
+cardNumber.addEventListener('input', createListener(isValidCardNumber));
 
-zipCode.addEventListener('submit', createListener(isValidZipCode));
+zipCode.addEventListener('input', createListener(isValidZipCode));
 
-cvv.addEventListener('submit', createListener(isValidCVV));
+cvv.addEventListener('input', createListener(isValidCVV));
+
+form.addEventListener('submit', createListener(isValidName));
