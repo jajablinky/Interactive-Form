@@ -107,9 +107,9 @@ payWithSelect.addEventListener("change", (e) => {
   console.log(e.target);
 });
 
-/*    Form Validation:
-  seeing if input content is valid and giving feedback to user.
-
+/* 
+  *  Form Validation:
+  *    seeing if input content is valid and giving feedback to user.
 */
 const email = document.getElementById('email');
 const registerForActivities = document.getElementById('activities');
@@ -118,42 +118,77 @@ const zipCode = document.getElementById('zip');
 const cvv = document.getElementById('cvv');
 const form = document.querySelector('form');
 const nameInput = document.getElementById('name');
+const activitiesCost = document.getElementById('activities-cost');
 
-
+/* Validator functions to test if user submitted correctly */
 function isValidName(name) {
   return /\S+/.test(name);
-}
+};
 
 function isValidEmail(email) {
   return /^[^@]+@[^@.]+\.[a-z]+$/i.test(email);
-}
-
-function isValidActivity(activity){
 };
 
-// function registerForActivities(activity) {
-//   return /^[^@]+@[^@.]+\.[a-z]+$/i.test(activity);
-// }
+function isValidActivity(activity){
+  return (activity !== 'Total: $0');
+};
+
+function isValidCardNumber(number){
+  return /^[0-9]{13,16}$/.test(number);
+};
+
+function isValidZipCode(zipCode){
+  return /^[0-9]{5}$/.test(zipCode);
+};
+
+function isValidCVV(cvv){
+  return /^[0-9]{3}$/.test(cvv);
+};
+
+/*  when user error/incomplete submission is true show tool tip, hide when false  */
 
 function showOrHideTip(show, element) {
-  // show element when show is true, hide when false
   if (show) {
     element.style.display = "inherit";
+    e.preventDefault();
   } else {
     element.style.display = "none";
   }
 }
 
+/* create listener functions to show tooltips if information is not submitted correctly 
+using the validators */
 function createListener(validator) {
   return e => {
     const text = e.target.value;
     const valid = validator(text);
     const showTip = text !== "" && !valid;
     const tooltip = e.target.nextElementSibling;
+    console.log(e.target.value);
     showOrHideTip(showTip, tooltip);
   };
 }
 
-nameInput.addEventListener("input", createListener(isValidName));
+function createListenerActivity(validator) {
+  return e => {
+    const text = activitiesCost.textContent;
+    const valid = validator(text);
+    const showTip = text !== "" && !valid;
+    const tooltip = activitiesCost.nextElementSibling;
+    showOrHideTip(showTip, tooltip);
+  };
+}
 
-email.addEventListener("input", createListener(isValidEmail));
+/* event listners to listen for submits using the validators and listener functions */
+
+nameInput.addEventListener("submit", createListener(isValidName));
+
+email.addEventListener("submit", createListener(isValidEmail));
+
+registerForActivities.addEventListener("change", createListenerActivity(isValidActivity));
+
+cardNumber.addEventListener('submit', createListener(isValidCardNumber));
+
+zipCode.addEventListener('submit', createListener(isValidZipCode));
+
+cvv.addEventListener('submit', createListener(isValidCVV));
