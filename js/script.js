@@ -33,10 +33,13 @@ const tshirtDesignColor = () => {
   const colorDropDownDiv = document.getElementById("shirt-colors");
   const colorDropDown = document.getElementById("color");
   const designDropDown = document.getElementById("design");
+  const colors = colorDropDown.children;
+  console.log(colors);
   colorDropDownDiv.style.display = "none";
   designDropDown.addEventListener("input", (e) => {
     colorDropDownDiv.style.display = "inline";
     colorDropDown.focus();
+
     if (e.target.value === "js puns") {
       colorDropDown[1].style.display = "inline";
       colorDropDown[2].style.display = "inline";
@@ -61,6 +64,10 @@ tshirtDesignColor();
     adding event listeners with a loop to find out if 
     inputs from different activity packages are checked or unchecked from user.
 */
+const allCheckboxFunction = () => {
+
+
+};
 
 let totalAmount = 0;
 const allCheckbox = document.querySelectorAll("input[type='checkbox']");
