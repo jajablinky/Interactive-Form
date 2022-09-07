@@ -173,7 +173,7 @@ const activityValidator = (e) => {
 const formListener = (e) => {
   inputValidator(nameInput, /^[A-Za-z.-]+(\s*[A-Za-z.-]+)*$/, e);
   activityValidator(e);
-  if (collectionSelect[0].getAttribute("selected" === true)) {
+  if (payWithSelect.value === 'credit-card') {
     inputValidator(cardNumber, /^[0-9]{13,16}$/, e);
     inputValidator(zipCode, /^[0-9]{5}$/, e);
     inputValidator(cvv, /^[0-9]{3}$/, e);
