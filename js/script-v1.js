@@ -66,11 +66,23 @@ let totalAmount = 0;
 
 registerForActivities.addEventListener("change", (e) => {
   const activityDataCost = +e.target.getAttribute("data-cost");
-  if (e.target.checked && allActivity) {
-    totalAmount += activityDataCost;
-  } else if (!e.target.checked) {
-    totalAmount -= activityDataCost;
+
+    if (e.target === allActivity[1] && allActivity[3].checked) {
+    allActivity[3].checked = false;
+  } else if (e.target === allActivity[3] && allActivity[1].checked) {
+    allActivity[1].checked = false;
+  } else if (e.target === allActivity[2] && allActivity[4].checked) {
+    allActivity[4].checked = false;
+  } else if (e.target === allActivity[4] && allActivity[2].checked) {
+    allActivity[2].checked = false;
   }
+
+    else if (e.target.checked && allActivity) {
+    totalAmount += activityDataCost;
+  } else if (!e.target.checked && allActivity) {
+    totalAmount -= activityDataCost;
+  } 
+
   console.log(totalAmount);
   totalAmountEl.innerHTML = `Total: $${totalAmount}`;
 });
@@ -160,21 +172,21 @@ const activityValidator = (e) => {
 
 const formListener = (e) => {
   inputValidator(nameInput, /^[A-Za-z.-]+(\s*[A-Za-z.-]+)*$/, e);
-  if ((email.innerHTML = "")) {
-    e.preventDefault();
-    input.parentElement.classList = "not-valid";
-    emailBlank.style.display = "inline";
-    return false;
-  } else {
-    inputValidator(email, /^[^@]+@[^@.]+\.[a-z]+$/i, e);
-  }
-
   activityValidator(e);
-
   if (collectionSelect[0].getAttribute("selected" === true)) {
     inputValidator(cardNumber, /^[0-9]{13,16}$/, e);
     inputValidator(zipCode, /^[0-9]{5}$/, e);
     inputValidator(cvv, /^[0-9]{3}$/, e);
+  }
+  if ((email.value === "")) {
+    e.preventDefault();
+    emailBlank.parentElement.classList = "not-valid";
+    emailBlank.style.display = "block";
+    return false;
+  } else {
+    emailBlank.parentElement.classList.remove('not-valid');
+    emailBlank.style.display = "none";
+    inputValidator(email, /^[^@]+@[^@.]+\.[a-z]+$/i, e);
   }
 };
 
