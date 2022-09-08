@@ -38,9 +38,9 @@ const tshirtDesignColor = () => {
     colorDropDown.disabled = false;
     colorDropDown.focus();
     for (i = 0; i < colorChildren.length; i++) {
-      const designValue = e.target.value;
+      const colorValue = e.target.value;
       const currentColorValue = colorChildren[i].getAttribute("data-theme");
-      if (designValue === currentColorValue) {
+      if (colorValue === currentColorValue) {
         colorChildren[i].hidden = false;
         colorChildren[i].setAttribute("selected", true);
       } else if (colorValue !== currentColorValue) {
