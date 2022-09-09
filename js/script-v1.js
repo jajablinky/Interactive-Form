@@ -67,6 +67,8 @@ let totalAmount = 0;
 registerForActivities.addEventListener("change", (e) => {
   const activityDataCost = +e.target.getAttribute("data-cost");
 
+/* These conditionals are for conflicting activities that are at the same time and day. They make it so you can only take 1 activity per time slot. */
+
     if (e.target === allActivity[1] && allActivity[3].checked) {
     allActivity[3].checked = false;
   } else if (e.target === allActivity[3] && allActivity[1].checked) {
@@ -77,6 +79,7 @@ registerForActivities.addEventListener("change", (e) => {
     allActivity[2].checked = false;
   }
 
+// everytime a checkbox gets checked it gets added to total amount and everytime it's unchecked it is subtracted  
     else if (e.target.checked && allActivity) {
     totalAmount += activityDataCost;
   } else if (!e.target.checked && allActivity) {
@@ -138,6 +141,8 @@ const zipCode = document.getElementById("zip");
 const cvv = document.getElementById("cvv");
 const emailBlank = document.getElementById("email-hint2");
 
+// input validator function that is made for testing the various inputs with its corresponding regex and showing appropriate error messages when input isn't validated.
+
 const inputValidator = (input, regex, e) => {
   const inputValue = input.value;
   const inputValid = regex.test(inputValue);
@@ -152,6 +157,8 @@ const inputValidator = (input, regex, e) => {
     return false;
   }
 };
+
+// activity validator specifically for the activity checkboxes to give an error message back to user if no checkboxes are detected.
 
 const activityValidator = (e) => {
   const checked = document.querySelectorAll("input[type='checkbox']:checked");
@@ -169,6 +176,13 @@ const activityValidator = (e) => {
     return true;
   }
 };
+
+/*
+'Form Listener Function':
+it uses the validator functions with conditionals specifically for cc and email seections.
+CC section checks for credit card being selected to run validators so error message doesnt show up otherwise
+Email section allows for multiple errors to be possible if email is blank AND email needs to be reformatted correctly.
+*/
 
 const formListener = (e) => {
   inputValidator(nameInput, /^[A-Za-z.-]+(\s*[A-Za-z.-]+)*$/, e);
@@ -189,6 +203,8 @@ const formListener = (e) => {
     inputValidator(email, /^[^@]+@[^@.]+\.[a-z]+$/i, e);
   }
 };
+
+// Adds two different event listners for both actions by user.
 
 form.addEventListener("submit", formListener);
 form.addEventListener("input", formListener);
